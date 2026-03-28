@@ -1,0 +1,13 @@
+# COGNITIVE-SYNC v1.2 - Hardware Simulator Integration Requirements
+
+# Core dependencies (from COGNITIVE-SYNC)
+websockets>=11.0
+numpy>=1.24.0
+
+# Hardware Simulator dependencies
+# Note: Install from hardware-simulator/requirements.txt:
+# pip install -r ../hardware-simulator/requirements.txt
+
+# Development/Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
