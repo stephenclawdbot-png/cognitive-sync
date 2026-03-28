@@ -171,6 +171,129 @@
             cursor: not-allowed;
         }
         
+        .btn-sim {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+        }
+        
+        .btn-sim:hover {
+            background: rgba(255, 100, 100, 0.2);
+            border-color: rgba(255, 100, 100, 0.5);
+        }
+        
+        .btn-sim.active {
+            background: rgba(100, 255, 100, 0.1);
+            border-color: rgba(100, 255, 100, 0.3);
+            color: #64ff64;
+        }
+        
+        .btn-sim.active:hover {
+            background: rgba(100, 255, 100, 0.2);
+            border-color: rgba(100, 255, 100, 0.5);
+        }
+        
+        /* Simulation Mode Panel */
+        #sim-panel {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            width: 280px;
+            background: rgba(20, 20, 35, 0.95);
+            border: 1px solid rgba(100, 255, 216, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        #sim-panel.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+        }
+        
+        #sim-panel h3 {
+            font-size: 14px;
+            color: #64ffd8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #sim-panel h3::before {
+            content: '🧪';
+        }
+        
+        .sim-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 6px;
+            color: #a0a0c0;
+        }
+        
+        .sim-stat-value {
+            color: #64ffd8;
+            font-weight: 600;
+        }
+        
+        .sim-divider {
+            height: 1px;
+            background: rgba(100, 255, 216, 0.1);
+            margin: 12px 0;
+        }
+        
+        .latency-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(100, 255, 216, 0.1);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .latency-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffd8, #ff6464);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .latency-ok .latency-fill {
+            background: #64ff64;
+        }
+        
+        .scenario-selector {
+            margin-top: 12px;
+        }
+        
+        .scenario-selector label {
+            display: block;
+            font-size: 11px;
+            color: #8080a0;
+            margin-bottom: 4px;
+        }
+        
+        .scenario-select {
+            width: 100%;
+            padding: 8px;
+            background: rgba(100, 255, 216, 0.05);
+            border: 1px solid rgba(100, 255, 216, 0.2);
+            border-radius: 6px;
+            color: #e0e0ff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .scenario-select option {
+            background: #1a1a2e;
+        }
+        
         #legend {
             bottom: 80px;
             left: 20px;
@@ -285,7 +408,7 @@
     <!-- UI Overlay -->
     <div id="header" class="ui-layer">
         <h1><span>COGNITIVE</span>-SYNC</h1>
-        <div class="subtitle">v1.1 | EMG Thought Visualization</div>
+        <div class="subtitle">v1.1 | EMG Thought Visualization | <a href="#" id="v12-link" style="color: #64ffd8; text-decoration: underline;">Try v1.2 Simulation Mode 🧪</a></div>
     </div>
 
     <div id="stats" class="ui-layer">
@@ -334,6 +457,7 @@
     <div id="controls" class="ui-layer">
         <button class="btn" id="btn-reset">Reset View</button>
         <button class="btn" id="btn-toggle">Pause</button>
+        <button class="btn btn-sim" id="btn-sim-mode">Simulation Mode: OFF</button>
     </div>
 
     <!-- Active Thought Display -->
@@ -342,6 +466,52 @@
             <div class="thought-text" id="active-text"></div>
             <div class="thought-meta" id="active-meta"></div>
         </div>
+    </div>
+
+    <!-- Simulation Mode Panel -->
+    <div id="sim-panel">
+        <h3>v1.2 Simulation Mode</h3>
+        
+        <div class="sim-stat">
+            <span>Pipeline Latency</span>
+            <span class="sim-stat-value" id="sim-latency">-- ms</span>
+        </div>
+        <div class="latency-bar" id="latency-bar">
+            <div class="latency-fill" id="latency-fill" style="width: 0%"></div>
+        </div>
+        
+        <div class="sim-divider"></div>
+        
+        <div class="sim-stat">
+            <span>EMG Events</span>
+            <span class="sim-stat-value" id="sim-emg">0</span>
+        </div>
+        <div class="sim-stat">
+            <span>Particles</span>
+            <span class="sim-stat-value" id="sim-particles">0</span>
+        </div>
+        <div class="sim-stat">
+            <span>Connected Users</span>
+            <span class="sim-stat-value" id="sim-users">0</span>
+        </div>
+        
+        <div class="sim-divider"></div>
+        
+        <div class="scenario-selector">
+            <label>Scenario</label>
+            <select class="scenario-select" id="scenario-select">
+                <option value="none">-- Select Scenario --</option>
+                <option value="creative">🎨 Creative Flow</option>
+                <option value="debug">🔧 Debugging Session</option>
+                <option value="planning">📋 Planning Meeting</option>
+            </select>
+        </div>
+        
+        <div class="sim-divider"></div>
+        
+        <button class="btn" id="btn-run-scenario" style="width: 100%">
+            Run Scenario
+        </button>
     </div>
 
     <!-- Three.js -->
@@ -364,7 +534,16 @@
             },
             mouse: { x: 0, y: 0, isDown: false },
             lastFrame: performance.now(),
-            frameCount: 0
+            frameCount: 0,
+            // v1.2 Simulation Mode state
+            simulationMode: false,
+            simWs: null,
+            simStats: {
+                emgEvents: 0,
+                particles: 0,
+                latency: 0,
+                scenario: 'none'
+            }
         };
 
         // Three.js setup
@@ -751,6 +930,117 @@
             e.target.textContent = state.paused ? 'Resume' : 'Pause';
         });
 
+        // v1.2 Simulation Mode Toggle
+        document.getElementById('btn-sim-mode').addEventListener('click', (e) => {
+            state.simulationMode = !state.simulationMode;
+            const btn = e.target;
+            const panel = document.getElementById('sim-panel');
+            
+            if (state.simulationMode) {
+                btn.textContent = 'Simulation Mode: ON';
+                btn.classList.add('active');
+                panel.classList.add('visible');
+                connectSimulationWs();
+            } else {
+                btn.textContent = 'Simulation Mode: OFF';
+                btn.classList.remove('active');
+                panel.classList.remove('visible');
+                disconnectSimulationWs();
+            }
+        });
+
+        // v1.2 Scenario Run
+        document.getElementById('btn-run-scenario').addEventListener('click', () => {
+            const scenario = document.getElementById('scenario-select').value;
+            if (scenario === 'none') {
+                alert('Please select a scenario first');
+                return;
+            }
+            
+            if (state.simWs && state.simWs.readyState === WebSocket.OPEN) {
+                state.simWs.send(JSON.stringify({
+                    command: 'run_scenario',
+                    scenario: scenario
+                }));
+            }
+        });
+
+        // v1.2 Simulation WebSocket Connection
+        function connectSimulationWs() {
+            const simWsUrl = `ws://${window.location.host.replace(':8000', ':8765')}`;
+            state.simWs = new WebSocket(simWsUrl);
+            
+            state.simWs.onopen = () => {
+                console.log('Connected to v1.2 Simulation Bridge');
+                state.simWs.send(JSON.stringify({ command: 'get_state' }));
+            };
+            
+            state.simWs.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleSimulationMessage(msg);
+            };
+            
+            state.simWs.onclose = () => {
+                console.log('v1.2 Simulation Bridge disconnected');
+            };
+            
+            state.simWs.onerror = (err) => {
+                console.error('Simulation WS error:', err);
+            };
+        }
+
+        function disconnectSimulationWs() {
+            if (state.simWs) {
+                state.simWs.close();
+                state.simWs = null;
+            }
+        }
+
+        function handleSimulationMessage(msg) {
+            switch (msg.type) {
+                case 'state_update':
+                    updateSimulationStats(msg.data);
+                    break;
+                case 'thought_created':
+                    // Mirror simulation thoughts to main view
+                    const thought = msg.data;
+                    thought.source = 'simulation';
+                    state.thoughts.set(thought.id, thought);
+                    updateVisualization();
+                    showActiveThought(thought);
+                    break;
+            }
+        }
+
+        function updateSimulationStats(data) {
+            if (data.metrics) {
+                const latency = data.metrics.total_pipeline_avg_ms || 0;
+                document.getElementById('sim-latency').textContent = `${latency.toFixed(1)} ms`;
+                
+                // Update latency bar
+                const pct = Math.min((latency / 100) * 100, 100);
+                document.getElementById('latency-fill').style.width = `${pct}%`;
+                
+                // Color based on target
+                const bar = document.getElementById('latency-bar');
+                if (latency < 100) {
+                    bar.classList.add('latency-ok');
+                } else {
+                    bar.classList.remove('latency-ok');
+                }
+            }
+            
+            if (data.emg_events !== undefined) {
+                document.getElementById('sim-emg').textContent = data.emg_events;
+            }
+            if (data.particle_count !== undefined) {
+                document.getElementById('sim-particles').textContent = data.particle_count;
+            }
+            if (data.user_count !== undefined) {
+                document.getElementById('sim-users').textContent = data.user_count;
+            }
+        }
+
         // Window resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -769,6 +1059,16 @@
                 document.getElementById('loading').classList.add('hidden');
             }, 1500);
         }
+
+        // v1.2 link handler
+        document.getElementById('v12-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('btn-sim-mode').click();
+        });
+
+        // Update header for v1.2
+        const header = document.querySelector('#header h1');
+        header.innerHTML = '<span>COGNITIVE</span>-SYNC';
 
         init();
     </script>
