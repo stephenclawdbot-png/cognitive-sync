@@ -6,6 +6,23 @@ Visualize your thoughts as floating 3D objects in a shared space. Multiple users
 
 ![Cognitive Sync Demo](https://via.placeholder.com/800x400/0a0a0f/64ffd8?text=COGNITIVE-SYNC+3D+Visualization)
 
+## 📣 New: Version 1.1 Demo Available!
+
+**[🚀 Launch Demo v1.1](demo_app/)** - EMG-driven thought visualization with:
+- 🔮 Three.js 3D visualization
+- ⚡ Real-time WebSocket streaming
+- 👥 Multiple virtual users (Alice, Bob, Charlie)
+- 💾 Session persistence and replay
+
+See `demo_app/README.md` for details.
+
+```bash
+# Quick start v1.1 demo
+cd demo_app
+docker-compose up
+# Open http://localhost:8000
+```
+
 ## ✨ Features
 
 - **Spatial Thinking**: Thoughts exist as 3D objects with position, text, and metadata
@@ -101,12 +118,19 @@ Open your browser to: http://localhost:8080
 
 ```
 COGNITIVE-SYNC/
-├── thought_node.py         # CRDT thought data model
-├── websocket_bridge.py       # Real-time sync layer
-├── demo/
-│   └── server.py            # Complete working server
-├── README.md                # This file
-└── requirements.txt         # Python dependencies
+├── thought_node.py              # CRDT thought data model
+├── websocket_bridge.py          # Real-time sync layer
+├── demo/                        # v1.0 demo (basic HTML Canvas)
+│   └── server.py               
+├── demo_app/                    # v1.1 demo (Three.js + EMG)
+│   ├── server.py               # FastAPI backend
+│   ├── thought_simulator.py    # EMG→thought mapping
+│   ├── visualizer.py           # 3D graph renderer
+│   ├── web_ui/index.html       # Three.js frontend
+│   ├── docker-compose.yml      # One-command startup
+│   └── README.md               # Demo documentation
+├── README.md                    # This file
+└── requirements.txt             # Python dependencies
 ```
 
 ## 🔧 Core Components

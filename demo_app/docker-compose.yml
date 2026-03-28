@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  cognitive-sync:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cognitive-sync-v1.1
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NUM_USERS=3
+    volumes:
+      - ./demo_app:/app/demo_app
+      - ./SILENT-001:/app/SILENT-001:ro
+      - session_data:/app/data
+    restart: unless-stopped
+    networks:
+      - cognitive-network
+
+  # Optional: Redis for session persistence (future feature)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: cognitive-redis
+  #   networks:
+  #     - cognitive-network
+
+volumes:
+  session_data:
+    driver: local
+
+networks:
+  cognitive-network:
+    driver: bridge

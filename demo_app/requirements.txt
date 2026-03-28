@@ -1,0 +1,21 @@
+# COGNITIVE-SYNC v1.1 Demo Application Dependencies
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# WebSocket Support
+websockets==12.0
+
+# Data Processing
+numpy==1.24.3
+
+# Async support
+asyncio-mqtt==0.16.1
+
+# Optional: For enhanced visualization
+pydantic==2.5.0
+
+# Development (optional)
+pytest==7.4.3
+black==23.11.0

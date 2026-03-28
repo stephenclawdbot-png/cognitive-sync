@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COGNITIVE-SYNC v1.1 | EMG Thought Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #050508;
+            color: #e0e0ff;
+            overflow: hidden;
+            user-select: none;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+        
+        #canvas {
+            display: block;
+        }
+        
+        /* UI Overlay */
+        .ui-layer {
+            position: fixed;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        #header {
+            top: 20px;
+            left: 20px;
+            pointer-events: all;
+        }
+        
+        #header h1 {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #64ffd8, #64aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        #header h1 span {
+            font-weight: 700;
+        }
+        
+        #header .subtitle {
+            font-size: 11px;
+            opacity: 0.6;
+            margin-top: 4px;
+            color: #a0a0c0;
+        }
+        
+        #stats {
+            top: 20px;
+            right: 20px;
+            text-align: right;
+            font-size: 11px;
+        }
+        
+        .stat {
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+        
+        .stat-label {
+            color: #8080a0;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: #64ffd8;
+        }
+        
+        #users-panel {
+            top: 100px;
+            right: 20px;
+            text-align: right;
+        }
+        
+        .user-badge {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .user-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        
+        #connection-status {
+            bottom: 20px;
+            left: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-connected { background: #64ff8a; box-shadow: 0 0 10px #64ff8a; }
+        .status-connecting { background: #ffd664; animation: blink 1s infinite; }
+        .status-disconnected { background: #ff6464; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        #controls {
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            pointer-events: all;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: rgba(100, 255, 216, 0.1);
+            border: 1px solid rgba(100, 255, 216, 0.3);
+            border-radius: 8px;
+            color: #64ffd8;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(100, 255, 216, 0.2);
+            border-color: rgba(100, 255, 216, 0.5);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        #legend {
+            bottom: 80px;
+            left: 20px;
+            font-size: 11px;
+            opacity: 0.6;
+            line-height: 1.8;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        #active-thought {
+            position: fixed;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        #active-thought.visible {
+            opacity: 1;
+        }
+        
+        .thought-bubble {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(100, 255, 216, 0.3);
+            border-radius: 12px;
+            padding: 16px 24px;
+            backdrop-filter: blur(20px);
+            max-width: 400px;
+        }
+        
+        .thought-text {
+            font-size: 18px;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .thought-meta {
+            font-size: 11px;
+            color: #8080a0;
+        }
+        
+        /* Loading overlay */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050508;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s;
+        }
+        
+        #loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(100, 255, 216, 0.2);
+            border-top: 2px solid #64ffd8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #64ffd8;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader"></div>
+        <div class="loader-text">INITIALIZING NEURAL SYNC...</div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- UI Overlay -->
+    <div id="header" class="ui-layer">
+        <h1><span>COGNITIVE</span>-SYNC</h1>
+        <div class="subtitle">v1.1 | EMG Thought Visualization</div>
+    </div>
+
+    <div id="stats" class="ui-layer">
+        <div class="stat">
+            <span class="stat-label">Thoughts: </span>
+            <span class="stat-value" id="thought-count">0</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Active Users: </span>
+            <span class="stat-value" id="user-count">0</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">FPS: </span>
+            <span class="stat-value" id="fps">60</span>
+        </div>
+    </div>
+
+    <div id="users-panel" class="ui-layer">
+        <div id="users-list"></div>
+    </div>
+
+    <div id="connection-status" class="ui-layer">
+        <div class="status-dot status-connecting" id="status-dot"></div>
+        <span id="status-text">Connecting...</span>
+    </div>
+
+    <div id="legend" class="ui-layer">
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #64ffd8; opacity: 0.3;"></div>
+            <span>Rest State</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #ffd864;"></div>
+            <span>Thinking</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #ff64d8;"></div>
+            <span>Word Detected</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #fff; box-shadow: 0 0 10px #fff;"></div>
+            <span>Connection</span>
+        </div>
+    </div>
+
+    <div id="controls" class="ui-layer">
+        <button class="btn" id="btn-reset">Reset View</button>
+        <button class="btn" id="btn-toggle">Pause</button>
+    </div>
+
+    <!-- Active Thought Display -->
+    <div id="active-thought">
+        <div class="thought-bubble">
+            <div class="thought-text" id="active-text"></div>
+            <div class="thought-meta" id="active-meta"></div>
+        </div>
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ============================================
+        // COGNITIVE-SYNC v1.1 - 3D Visualization
+        // ============================================
+        
+        // Global state
+        const state = {
+            thoughts: new Map(),
+            users: new Map(),
+            connections: [],
+            paused: false,
+            camera: {
+                position: { x: 0, y: 0, z: 30 },
+                rotation: { x: 0, y: 0 },
+                target: { x: 0, y: 0, z: 0 }
+            },
+            mouse: { x: 0, y: 0, isDown: false },
+            lastFrame: performance.now(),
+            frameCount: 0
+        };
+
+        // Three.js setup
+        const canvas = document.getElementById('canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050508, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 30);
+
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas, 
+            antialias: true,
+            alpha: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x050508);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0x64ffd8, 1, 100);
+        pointLight.position.set(0, 0, 20);
+        scene.add(pointLight);
+
+        // Grid
+        const gridHelper = new THREE.GridHelper(100, 100, 0x1a1a2e, 0x0f0f1a);
+        gridHelper.position.y = -10;
+        scene.add(gridHelper);
+
+        // Thought meshes
+        const thoughtGroup = new THREE.Group();
+        scene.add(thoughtGroup);
+
+        // User meshes
+        const userGroup = new THREE.Group();
+        scene.add(userGroup);
+
+        // Connection lines
+        const connectionGroup = new THREE.Group();
+        scene.add(connectionGroup);
+
+        // Material cache
+        const materials = {};
+        
+        function getMaterial(color, emissive = false) {
+            const key = color + (emissive ? '_emissive' : '');
+            if (!materials[key]) {
+                materials[key] = new THREE.MeshPhongMaterial({
+                    color: color,
+                    emissive: emissive ? color : 0x000000,
+                    emissiveIntensity: emissive ? 0.5 : 0,
+                    transparent: true,
+                    opacity: 0.9
+                });
+            }
+            return materials[key];
+        }
+
+        // Create thought sphere
+        function createThoughtMesh(thought) {
+            const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const material = getMaterial(thought.color, true);
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            mesh.position.set(...thought.position);
+            
+            // Scale based on importance
+            const scale = thought.metadata?.size_multiplier || 1.0;
+            mesh.scale.set(scale, scale, scale);
+            
+            // Add glow effect
+            if (thought.emg_state === 'word_detected') {
+                const glowGeo = new THREE.SphereGeometry(1.0, 32, 32);
+                const glowMat = new THREE.MeshBasicMaterial({
+                    color: thought.color,
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const glow = new THREE.Mesh(glowGeo, glowMat);
+                mesh.add(glow);
+            }
+            
+            mesh.userData = { thought };
+            return mesh;
+        }
+
+        // Create user avatar
+        function createUserMesh(user) {
+            const group = new THREE.Group();
+            
+            // Body
+            const geometry = new THREE.ConeGeometry(0.5, 1.5, 8);
+            const material = new THREE.MeshPhongMaterial({
+                color: user.color,
+                emissive: user.color,
+                emissiveIntensity: 0.3
+            });
+            const body = new THREE.Mesh(geometry, material);
+            body.rotation.x = Math.PI;
+            group.add(body);
+            
+            // Label
+            // Position
+            group.position.set(...user.position);
+            group.userData = { user };
+            
+            return group;
+        }
+
+        // Update visualization
+        function updateVisualization() {
+            // Clear existing
+            while(thoughtGroup.children.length > 0) {
+                thoughtGroup.remove(thoughtGroup.children[0]);
+            }
+            while(userGroup.children.length > 0) {
+                userGroup.remove(userGroup.children[0]);
+            }
+            while(connectionGroup.children.length > 0) {
+                connectionGroup.remove(connectionGroup.children[0]);
+            }
+            
+            // Add thoughts
+            state.thoughts.forEach((thought, id) => {
+                const mesh = createThoughtMesh(thought);
+                thoughtGroup.add(mesh);
+            });
+            
+            // Add users
+            state.users.forEach((user, id) => {
+                const mesh = createUserMesh(user);
+                userGroup.add(mesh);
+            });
+            
+            // Draw connections
+            drawConnections();
+        }
+
+        function drawConnections() {
+            const thoughts = Array.from(state.thoughts.values());
+            const material = new THREE.LineBasicMaterial({
+                color: 0x64ffd8,
+                transparent: true,
+                opacity: 0.1
+            });
+            
+            for (let i = 0; i < thoughts.length; i++) {
+                for (let j = i + 1; j < thoughts.length; j++) {
+                    const t1 = thoughts[i];
+                    const t2 = thoughts[j];
+                    
+                    const dx = t1.position[0] - t2.position[0];
+                    const dy = t1.position[1] - t2.position[1];
+                    const dz = t1.position[2] - t2.position[2];
+                    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    
+                    if (dist < 8) {
+                        const points = [
+                            new THREE.Vector3(...t1.position),
+                            new THREE.Vector3(...t2.position)
+                        ];
+                        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                        const line = new THREE.Line(geometry, material);
+                        connectionGroup.add(line);
+                    }
+                }
+            }
+        }
+
+        // WebSocket connection
+        let ws = null;
+        let reconnectAttempts = 0;
+        
+        function connect() {
+            const wsUrl = `ws://${window.location.host}/ws`;
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                console.log('Connected to Cognitive Sync');
+                updateConnectionStatus('connected', 'Connected');
+                reconnectAttempts = 0;
+                
+                // Request initial data
+                ws.send(JSON.stringify({ command: 'get_users' }));
+                ws.send(JSON.stringify({ command: 'get_thoughts' }));
+            };
+            
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleMessage(msg);
+            };
+            
+            ws.onclose = () => {
+                updateConnectionStatus('disconnected', 'Disconnected');
+                reconnectAttempts++;
+                const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+                setTimeout(connect, delay);
+            };
+            
+            ws.onerror = (err) => {
+                console.error('WebSocket error:', err);
+            };
+        }
+
+        function handleMessage(msg) {
+            switch (msg.type) {
+                case 'connection_established':
+                    if (msg.data.users) {
+                        Object.entries(msg.data.users).forEach(([id, data]) => {
+                            state.users.set(id, data);
+                        });
+                    }
+                    updateUI();
+                    break;
+                    
+                case 'thought_created':
+                    const thought = msg.data;
+                    state.thoughts.set(thought.thought_id, thought);
+                    updateVisualization();
+                    updateUI();
+                    showActiveThought(thought);
+                    break;
+                    
+                case 'state_changed':
+                    const user = state.users.get(msg.data.user_id);
+                    if (user) {
+                        user.state = msg.data.state;
+                    }
+                    break;
+                    
+                case 'user_moved':
+                    const userData = state.users.get(msg.data.user_id);
+                    if (userData) {
+                        userData.position = msg.data.position;
+                    }
+                    updateVisualization();
+                    break;
+                    
+                case 'users_update':
+                    state.users.clear();
+                    Object.entries(msg.data).forEach(([id, data]) => {
+                        state.users.set(id, data);
+                    });
+                    updateUI();
+                    break;
+                    
+                case 'thoughts_batch':
+                    msg.data.forEach(t => {
+                        state.thoughts.set(t.thought_id, t);
+                    });
+                    updateVisualization();
+                    updateUI();
+                    break;
+            }
+        }
+
+        function updateConnectionStatus(status, text) {
+            const dot = document.getElementById('status-dot');
+            const txt = document.getElementById('status-text');
+            
+            dot.className = 'status-dot';
+            if (status === 'connected') dot.classList.add('status-connected');
+            else if (status === 'connecting') dot.classList.add('status-connecting');
+            else dot.classList.add('status-disconnected');
+            
+            txt.textContent = text;
+        }
+
+        function updateUI() {
+            document.getElementById('thought-count').textContent = state.thoughts.size;
+            document.getElementById('user-count').textContent = state.users.size;
+            
+            // Update users panel
+            const usersList = document.getElementById('users-list');
+            usersList.innerHTML = '';
+            state.users.forEach((user, id) => {
+                const badge = document.createElement('div');
+                badge.className = 'user-badge';
+                badge.innerHTML = `
+                    <span>${user.name || 'User'}</span>
+                    <div class="user-indicator" style="background: ${user.color}; box-shadow: 0 0 10px ${user.color};"></div>
+                `;
+                usersList.appendChild(badge);
+            });
+        }
+
+        function showActiveThought(thought) {
+            const display = document.getElementById('active-thought');
+            const text = document.getElementById('active-text');
+            const meta = document.getElementById('active-meta');
+            
+            if (thought.text === '...') return; // Skip ephemeral
+            
+            text.textContent = thought.text;
+            meta.textContent = `${thought.metadata?.user_name || 'Unknown'} • ${thought.emg_state} • ${(thought.confidence * 100).toFixed(0)}%`;
+            
+            display.classList.add('visible');
+            setTimeout(() => {
+                display.classList.remove('visible');
+            }, 3000);
+        }
+
+        // Camera controls
+        function setupControls() {
+            let isDragging = false;
+            let previousMouse = { x: 0, y: 0 };
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMouse = { x: e.clientX, y: e.clientY };
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - previousMouse.x;
+                const deltaY = e.clientY - previousMouse.y;
+                
+                state.camera.rotation.y += deltaX * 0.005;
+                state.camera.rotation.x += deltaY * 0.005;
+                
+                previousMouse = { x: e.clientX, y: e.clientY };
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+            
+            canvas.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY * 0.001;
+                camera.position.z += delta * 5;
+                camera.position.z = Math.max(5, Math.min(100, camera.position.z));
+            });
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (state.paused) return;
+            
+            // Smooth camera movement
+            camera.position.x += (Math.sin(state.camera.rotation.y) * 30 - camera.position.x) * 0.05;
+            camera.position.z += (Math.cos(state.camera.rotation.y) * 30 - camera.position.z) * 0.05;
+            camera.lookAt(0, 0, 0);
+            
+            // Pulse animation for thoughts
+            const time = performance.now() * 0.001;
+            thoughtGroup.children.forEach((mesh, i) => {
+                const thought = mesh.userData.thought;
+                if (thought && thought.emg_state === 'thinking') {
+                    const scale = 1 + Math.sin(time * 3 + i) * 0.1;
+                    mesh.scale.setScalar(scale);
+                } else if (thought && thought.emg_state === 'word_detected') {
+                    mesh.rotation.y += 0.02;
+                    mesh.rotation.z += 0.01;
+                }
+            });
+            
+            // FPS counter
+            state.frameCount++;
+            const now = performance.now();
+            if (now - state.lastFrame >= 1000) {
+                document.getElementById('fps').textContent = state.frameCount;
+                state.frameCount = 0;
+                state.lastFrame = now;
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        // UI controls
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            state.camera.rotation = { x: 0, y: 0 };
+            camera.position.set(0, 0, 30);
+        });
+
+        document.getElementById('btn-toggle').addEventListener('click', (e) => {
+            state.paused = !state.paused;
+            e.target.textContent = state.paused ? 'Resume' : 'Pause';
+        });
+
+        // Window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize
+        function init() {
+            setupControls();
+            connect();
+            animate();
+            
+            // Hide loading after a moment
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1500);
+        }
+
+        init();
+    </script>
+</body>
+</html>
