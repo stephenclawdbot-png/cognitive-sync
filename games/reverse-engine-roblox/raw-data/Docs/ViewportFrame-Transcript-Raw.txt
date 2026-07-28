@@ -1,0 +1,666 @@
+[00:00] These are viewport frames, a very unique
+[00:03] type of frame on Roblox that displays 3D
+[00:06] objects on a 2D screen. This allows us
+[00:08] to create things like shop display
+[00:10] images, mini map systems, and many other
+[00:12] things. And in this video, I'm going to
+[00:14] be showing you how to create these
+[00:15] viewport frames and use them for your
+[00:17] own Roblox games. So, with that being
+[00:19] said, let's get straight into the video.
+[00:21] Now that we understand it, let's
+[00:23] implement viewport frames inside Roblox
+[00:25] Studio. So, just like what we do at the
+[00:27] start of every single GUI episode, we're
+[00:29] going to go to the right side inside of
+[00:31] starter GUI, hit the plus sign, and
+[00:33] we're going to insert a screen GUI. Now,
+[00:35] inside of here, we're going to insert a
+[00:37] viewport frame just like this. I'm going
+[00:40] to scale it up just a little bit. Move
+[00:42] it over here. I'm going to go down to
+[00:44] the properties and change the size
+[00:46] property to use off to use scale instead
+[00:49] of offset. So, I'm going to say 0.2 0.2
+[00:53] and then zero just like this. And then
+[00:55] I'm going to rescale one more time and
+[00:57] then move it to the corner just like
+[00:58] this. All right. So, right now this
+[01:01] looks like a pretty standard frame. But
+[01:02] what's really cool about viewport frames
+[01:04] is that we can take 3D objects and
+[01:08] render them inside of a 2D space. And
+[01:11] the way that we can do that, I'm
+[01:12] actually going to show you a quick
+[01:13] example of how we can do that is let's
+[01:16] go to model and we're going to insert a
+[01:18] part. And with this part, the way that
+[01:20] we render objects inside of a viewport
+[01:23] frame is to directly put these models
+[01:25] inside the viewport frame itself. So I'm
+[01:28] going to take this part and drag it
+[01:29] inside the viewport frame. And now, as
+[01:31] you can see, the part is being rendered
+[01:34] inside of this viewport frame rather
+[01:36] than our in-game workspace as you can
+[01:38] see over here. Now, you might be
+[01:40] thinking that this is actually kind of
+[01:42] like a weird position for this part to
+[01:44] be in. Like why does it look like that?
+[01:45] It looks like that because Roblox is
+[01:47] using a fixated camera that's set in the
+[01:51] the origin of the game and we can't
+[01:53] exactly change the position of this
+[01:55] camera unless we create our own camera
+[01:58] or change it to a different one. And we
+[02:00] can actually do that through a specific
+[02:01] property. So if we go to viewport frame,
+[02:03] there should be a property here called
+[02:05] current camera. And we can actually
+[02:08] change this camera to be something
+[02:09] different. Let's say we were to select
+[02:11] this and change this to our studios
+[02:14] camera. Then what it's going to do is
+[02:16] it's going to replicate the studio's
+[02:19] camera inside this viewport frame. So if
+[02:21] we move around inside the world, then
+[02:23] the viewport frames camera is also going
+[02:26] to mimic what the studio's camera looks
+[02:28] like currently, which is actually really
+[02:30] cool. But the thing that's unpractical
+[02:32] about this is it doesn't exactly work
+[02:33] when we play the game. So if we go and
+[02:35] hit test and hit play, then what we
+[02:37] should see is that this viewport frame
+[02:40] is no longer updating with the in-game
+[02:42] camera. And that's because there's a
+[02:45] difference between the studios camera
+[02:47] and the in-game camera. So, if we play
+[02:50] the game, Roblox is essentially creating
+[02:51] a copy of the studio camera and putting
+[02:54] it inside of this viewport frame without
+[02:57] updating it because we're not using the
+[02:58] studios camera. This is our in-game
+[03:00] camera. So, there definitely are some
+[03:02] tricks that you have to look out for
+[03:03] when you're using viewport frames. But,
+[03:05] this is essentially what a viewport
+[03:06] frame is. And we can do some pretty cool
+[03:08] stuff with the part that's inside this
+[03:09] viewport frame. So, what I'm going to do
+[03:11] is hit the plus sign in viewport frame.
+[03:13] I'm going to insert a local script. And
+[03:15] what we're going to do inside of the
+[03:17] script is make it so that the part
+[03:19] inside this viewport frame is going to
+[03:20] constantly spin around. And what we're
+[03:22] going to do inside the script is first
+[03:24] make our own custom camera that we can
+[03:27] manipulate. And second, we're going to
+[03:28] write some lines that makes the parts
+[03:31] spin around so that we can see that it's
+[03:32] actually moving. So, the first thing
+[03:33] we're going to do is say local viewport
+[03:36] frame equals script.parent. And then
+[03:38] what we're going to do is say local part
+[03:40] equals viewport frame.part. So now what
+[03:43] we're going to do is create our own
+[03:46] viewport camera. So we're going to say
+[03:48] local viewport
+[03:50] cam equals instance new camera. And then
+[03:53] what we're going to do is set the origin
+[03:56] of the viewport cam. So we're going to
+[03:57] say viewport cam.cf frame equals Cframe
+[04:01] new 0000. But we can change this to a
+[04:04] different value later because right now
+[04:06] this is the standard C frame value for a
+[04:09] C frame when you do create it. So then
+[04:11] what we're going to do is we're going to
+[04:13] set the viewport frames current camera
+[04:17] to this camera that we just created
+[04:19] here. So we're going to say viewport
+[04:22] frame.curren camera equals viewport cam
+[04:25] just like this. So, this creates a new
+[04:28] viewport camera specifically for this
+[04:30] viewport frame that we can now
+[04:31] manipulate, which is what we're going to
+[04:32] do later. But as of right now, what
+[04:34] we're going to do is say while true do,
+[04:37] we're going to put a task. And above
+[04:40] here, we're going to make the part spin
+[04:42] around constantly. So, we're going to
+[04:44] say part C frame times equals the parts
+[04:48] C frame with Cframe.
+[04:51] And let's make it spin around on the
+[04:53] Yaxis. So, we're going to say zero. And
+[04:55] if we're going to use degrees, let's say
+[04:57] math.RAD. So we're going to put this in
+[05:00] radians. And then we're going to put one
+[05:01] degree here. And then for Z, we're just
+[05:03] going to say zero. So now if we go into
+[05:05] the game and hit test and hit play, then
+[05:08] what we should see in this viewport
+[05:10] frame is we can now see that the part is
+[05:13] spinning, but it's still kind of like
+[05:15] out of reach. We can't really see it
+[05:16] that well. And that's because we can now
+[05:19] take our viewport camera and modify
+[05:22] where the position of this camera is. So
+[05:25] on the Z, let's say we want to put five.
+[05:28] So what this viewport frame is going to
+[05:30] do is we can now see that it's like a
+[05:32] little farther away. Uh I think what I
+[05:34] actually wanted to do was make it a
+[05:35] little closer. So if I were to go back
+[05:37] to the script and make it let's say -10,
+[05:40] then I think we should definitely see a
+[05:41] difference with this viewport frame
+[05:43] here. So as you can see, the part is now
+[05:45] closer to the camera. Um, and we can now
+[05:48] modify our viewport camera to change
+[05:51] where it's positioned inside of this
+[05:54] viewport frame to basically showcase the
+[05:57] parts inside of here more accurately.
+[05:59] And I hope that this part is making
+[06:00] sense so far. Now, you might be
+[06:01] thinking, is it possible to render a
+[06:04] model inside of a viewport frame? And
+[06:06] the answer is yes. You actually can
+[06:08] render a model inside of a viewport
+[06:10] frame. And one of the best examples that
+[06:13] I can showcase this is through our own
+[06:16] character to be displayed inside this
+[06:17] viewport frame. So what I'm going to do
+[06:19] is go to test and then hit play. And
+[06:22] what we're going to do is copy our
+[06:24] character from the workspace. So I'm
+[06:25] going to open up workspace, then go to
+[06:27] our character. I'm going to rightclick,
+[06:29] copy, and then I'm going to hit stop.
+[06:31] And then inside the workspace, I'm going
+[06:33] to rightclick and then hit paste into
+[06:35] just like this. And now what I'm going
+[06:37] to do with our character is drag it into
+[06:39] the viewport frame. so that it's going
+[06:41] to be rendered just like this. Um, but
+[06:44] in order for us to have a clear view of
+[06:48] our character when we render it inside
+[06:49] the game. So, we want it to look
+[06:51] something like this. Uh, and the way
+[06:52] that we can achieve this specific angle
+[06:55] for the camera is having to create our
+[06:58] own camera to make it be positioned like
+[07:00] this when we play the game. So, what
+[07:03] we're going to do is inside the viewport
+[07:04] frame, we're going to hit the plus sign
+[07:06] and we're going to create our own camera
+[07:08] just so that we can see what it looks
+[07:10] like inside studio so that we can use
+[07:12] our script to replicate the same camera
+[07:15] position. So, for our new camera's
+[07:17] position, I'm going to set it to 0 0.
+[07:19] And then for the orientation, I'm also
+[07:21] going to set it to 0 0. And then what
+[07:23] I'm going to do is go to the viewport
+[07:25] frame. I'm going to go down to current
+[07:27] camera and then select our new camera
+[07:29] that we created. So with this, what
+[07:31] we're now going to do is try to make our
+[07:34] character in view of the camera. So for
+[07:38] our character, I'm going to set the
+[07:40] origin position to 00.
+[07:44] So now it might look a little off frame
+[07:46] right now. So we need to readjust some
+[07:48] values to make it in view. So we're
+[07:50] going to go to the camera and I'm going
+[07:52] to set the C frames position to 005.
+[07:56] And it looks like our character is now
+[07:58] facing the other way. So, what we can do
+[08:00] is set the orientation of our character
+[08:04] to, let's say, 180° on the Y-axis. And
+[08:06] there we go. Now, we can see our
+[08:08] character inside the frame. Now, in
+[08:10] order for us to see it in the actual
+[08:11] game, we need to modify our script to
+[08:14] replicate the same exact camera, but
+[08:16] instead create it inside the script
+[08:17] instead. So, what we're going to do is
+[08:19] go into the script and we're going to
+[08:22] change the position of this viewport
+[08:24] camera to 0 0 and whatever we put here.
+[08:28] Yeah. 0 0 5 just like that. So now if we
+[08:31] go into the game, hit test and hit play,
+[08:33] then what we should see is our character
+[08:36] is perfectly in the viewport frame as we
+[08:39] wanted to. And this is how you render a
+[08:42] model inside of a viewport frame. But
+[08:44] what if I told you that there are some
+[08:46] other pretty cool things we can do with
+[08:47] this? Like we can animate our character
+[08:50] inside of this viewport frame uh rather
+[08:52] than just having our character stand
+[08:54] still just like this. Now,
+[08:55] traditionally, what we would do is if I
+[08:57] were to hit stop, we would typically,
+[08:59] let's say, run an animation for our
+[09:01] character and then we'd be able to see
+[09:03] it inside of the viewport frame. But the
+[09:05] problem is is viewport frames don't
+[09:08] actually apply physics to any models
+[09:11] that are inside of the viewport frame.
+[09:14] Because if this was the case, then our
+[09:16] character should have like an idle
+[09:18] animation here, but it simply just
+[09:20] doesn't because it can't play physics or
+[09:22] any type of animation. So, a solution to
+[09:24] this would be to wrap our models inside
+[09:27] of what are called world models. And I'm
+[09:29] going to show you what this looks like.
+[09:30] So, inside of our viewport frame, we're
+[09:32] going to hit the plus sign, and we're
+[09:33] going to insert a world model that looks
+[09:36] like this. And anything that we add
+[09:39] inside of here is going to allow physics
+[09:41] to be enabled for any of the objects
+[09:43] that we put inside of it. So, I'm just
+[09:45] going to drag our character and put
+[09:46] inside the world model. And now if we
+[09:48] hit play,
+[09:50] what we should see is our character now
+[09:53] has its idle animation playing. And if
+[09:55] we wanted to do other things with it, we
+[09:57] can now do it because we put our
+[10:00] character inside of a world model. So
+[10:03] that's the purpose of what a world model
+[10:04] does. And now let's try and make a cool
+[10:07] little animation with this. So I'm going
+[10:08] to hit stop. And what I'm going to do is
+[10:10] let's say we want to make a script that
+[10:13] plays like a dance animation for this
+[10:15] character just for the heck of it. I'm
+[10:17] going to try and look for an animation
+[10:19] that we can play. So I'm just going to
+[10:21] click on animate. And there should be a
+[10:23] bunch of animations that we can pick
+[10:25] from here. Uh so I'm probably going to
+[10:27] pick dance and I'm going to pick one of
+[10:29] these animations. If you don't see this
+[10:31] option, it's probably because you
+[10:33] imported an R six character rather than
+[10:35] an R15 character. Uh but you can use any
+[10:37] of these animations. It really doesn't
+[10:39] matter which one you pick. So, I'm going
+[10:40] to pick animation one from the dance
+[10:42] animation. So, I'm just going to take
+[10:44] this, copy it, and I'm going to create a
+[10:47] new script inside of our character. So,
+[10:49] I'm going to hit the plus sign, insert a
+[10:51] local script, and I'm just going to
+[10:52] paste the animation inside of here, and
+[10:54] I'm going to rename this to
+[10:57] dance script, just like this. Okay. And
+[11:00] now what we're going to do is first
+[11:02] locate the animation. So, I'm just going
+[11:03] to rename this to animation. So, I'm
+[11:06] going to say local animation equals
+[11:09] script.an animation. And then what I'm
+[11:11] going to do is say local animator equals
+[11:14] script.parent
+[11:16] colon wait for childh humanoid. And we
+[11:19] want to locate the animator of the
+[11:20] humanoid. So, we're going to say wait
+[11:22] for child animator just like this. And
+[11:24] then we want to load the animation. So,
+[11:26] we're going to say local uh loaded
+[11:29] animation equals animator colon load
+[11:34] animation. And then we want to load the
+[11:35] actual animation to it. And then what
+[11:37] we're going to do is say loaded
+[11:39] animation colon play open close
+[11:43] parenthesis just like that. And this is
+[11:44] how we're going to be playing the dance
+[11:46] animation as soon as we join to the
+[11:48] game. So now we're basically done with
+[11:50] that. So if we hit play, then what we
+[11:52] should see is our character should be
+[11:54] playing a little dance animation. As you
+[11:56] can see right here, it's uh it's pretty
+[11:58] cool what you can do with viewport
+[12:00] frames. Uh you can even add backgrounds
+[12:02] if you really want to. You can change uh
+[12:04] some lighting properties which I'm
+[12:06] actually going to show you right here.
+[12:07] So, if we go to our viewport frame, we
+[12:09] have a bunch of settings that we can
+[12:11] work with. We have an ambient setting to
+[12:13] mess around with the lighting a little
+[12:14] bit. We have a light color if we want to
+[12:19] change that property as well. We even
+[12:21] have a light direction and some other
+[12:23] properties that we can just mess with
+[12:24] here to make it look better for what
+[12:26] we're trying to accomplish here. And I
+[12:28] hope that this is helping you understand
+[12:29] how you can apply viewport frames to
+[12:32] your game through what I've been able to
+[12:34] teach you so far. One thing I would like
+[12:35] to add is we can use viewport frames and
+[12:38] apply them to a surface GUI inside the
+[12:41] game, which I think is pretty cool. Now,
+[12:42] if you need a recap of what surface gys
+[12:44] are, so let's say if I were to insert a
+[12:47] part here and just scale it like this, I
+[12:49] want to apply a GUI screen onto a
+[12:53] specific side of this part. Let's say
+[12:55] this one. uh we would be able to add a
+[12:57] viewport frame to the surface of a 3D
+[13:00] object like this one, which I think this
+[13:02] is pretty cool. Uh so I'm going to show
+[13:03] you how to do this really quick. So what
+[13:05] I'm going to do is inside the screen
+[13:07] GUI, I'm going to insert a surface GUI.
+[13:11] And then within the surface GUI, I'm
+[13:13] going to set this adorny property to
+[13:15] this part right here. So I'm just going
+[13:17] to select that. And now what we're going
+[13:19] to do is take this viewport frame. I'm
+[13:22] going to copy it and I'm going to paste
+[13:24] it inside of here. And now you can see
+[13:26] that this viewport frame is a part of
+[13:29] this wall right here. So if we were to
+[13:31] go to the game, hit test and hit play,
+[13:32] then what we should see is the exact
+[13:34] same result of my character just dancing
+[13:37] all about like this. It's uh it's kind
+[13:40] it's kind of freaky looking, but I mean
+[13:41] this is still something really cool you
+[13:43] can do with viewport frames. And I
+[13:44] figured that I would show this to you in
+[13:46] case you ever decide to use this inside
+[13:47] of your Roblox games. So, with what we
+[13:49] have so far, we're about to create
+[13:50] something pretty interesting with this
+[13:52] viewport frame. So, what I have here is
+[13:55] a system where if I were to hover over
+[13:57] this viewport frame with my mouse, then
+[14:00] what it's going to do is it's going to
+[14:02] rotate the character around this
+[14:05] viewport frame, kind of like a display
+[14:07] showcase type of thing. And basically
+[14:09] how it works is when I initially hover
+[14:11] over, it's going to zoom the character
+[14:13] in and then it's going to constantly
+[14:15] rotate the character around until I
+[14:18] hover my mouse out of it. And I've seen
+[14:20] this a lot inside of shop systems where
+[14:22] if we want to display like a model of
+[14:25] some sort, then we can have it where if
+[14:27] you hover over it, then it's just going
+[14:28] to showcase it so that you're able to
+[14:30] see it properly so you can see the
+[14:32] entire thing. And I think this is a
+[14:33] really cool system to make and that's
+[14:34] what we're about to be making with what
+[14:36] we know about viewport frames so far.
+[14:38] Okay, so the first thing that we would
+[14:39] need to do is go to our local script.
+[14:42] And we probably don't need this code for
+[14:45] the part spinning thing anymore because
+[14:47] we're not really going to be using that.
+[14:49] So let's just delete that. And also
+[14:50] delete the reference to the part. Okay,
+[14:52] so what we need to do is create two
+[14:54] events. One for hovering our mouse into
+[14:57] the viewport frame and one for hovering
+[15:00] our mouse outside of the viewport frame.
+[15:02] So inside of our script, we're going to
+[15:03] say viewport frame dot mouse enter colon
+[15:08] connect function open and close
+[15:11] parenthesis enter. And this does bring
+[15:13] us two parameters that we're probably
+[15:15] not going to be using. So we're just
+[15:17] going to leave this empty. And then
+[15:18] we're going to do the same thing for
+[15:19] mouse leave. So we're going to say
+[15:21] viewport frame mouse leave col connect
+[15:24] function open and close parenthesis
+[15:25] enter. Just like that. Okay. Now,
+[15:29] another thing that we need to do is make
+[15:30] a bunch of references to a couple
+[15:32] things. And the first thing that we need
+[15:34] to make reference to is our character,
+[15:35] which I think to make it easier, what we
+[15:37] can do is go to our character. I'm just
+[15:40] going to rename this to character just
+[15:42] like this, so that it'll be easier to
+[15:44] reference. So, we're going to say local
+[15:46] character equals viewport frame.orld
+[15:50] model character just like that. Now,
+[15:52] another thing we need to make reference
+[15:54] to is a debounce variable to check
+[15:57] whether our mouse is currently hovered
+[15:59] over the viewport frame or not. So,
+[16:01] we're going to say local mouse entered
+[16:06] equals false. Just like that. And one
+[16:09] thing that we need is a default C frame.
+[16:11] And I'm going to show you why we need
+[16:13] this in a second. But first, we're going
+[16:15] to set it as a default value of where
+[16:18] our character is currently positioned.
+[16:20] So if I were to let's say select our
+[16:22] character, we can see that the default
+[16:24] position is at 0 0. So that's what we're
+[16:28] going to do here. So we're going to say
+[16:29] local default C frame equals C frame new
+[16:35] open close parenthesis 0 0. Now you
+[16:37] might notice that the default
+[16:39] orientation is -1 180. So we also need
+[16:42] to specify that inside of our default C
+[16:44] frame as well. So we're going to
+[16:46] multiply this by C frame. angles so that
+[16:49] we can apply a rotation to this. We're
+[16:51] going to say 0 math.
+[16:55] And then we're going to put 180° here
+[16:58] and then zero for Z. So once we have
+[17:02] this, we also need one more reference
+[17:04] which is going to be a connection
+[17:06] variable for when we run run services
+[17:09] render stepped function. And I'm going
+[17:11] to explain what that means later. But
+[17:13] let's just type in local rotation
+[17:16] connection. And we're not going to set
+[17:18] this to anything right now. Okay. So now
+[17:20] what we're going to do is inside of this
+[17:21] mouse enter event, first thing we want
+[17:23] to check is if the mouse is not
+[17:25] currently entered. So we're going to say
+[17:27] if not mouse entered, then we're going
+[17:29] to set mouse entered equal to true. And
+[17:32] this is where we can make it so that the
+[17:34] character zooms in for a second and then
+[17:37] it continuously rotates until the user
+[17:41] lets go of their mouse uh outside of the
+[17:43] viewport frame. So, if I were to show
+[17:44] you what this would look like, let's say
+[17:46] we have our character here, and we're
+[17:48] trying to apply changes to the
+[17:52] character's primary part, which for most
+[17:54] characters, it's this humanoid root part
+[17:56] here. So, if we were to make changes to
+[17:58] this humanoid root part, then what it's
+[18:00] going to do is it's going to apply it to
+[18:02] all the other parts of the character
+[18:04] because it's all contained inside of one
+[18:06] model here. And the humanoid root part
+[18:09] is the controller of all position and
+[18:12] rotation changes. So how this is going
+[18:15] to look is if we were to hover our mouse
+[18:17] over, then we're going to zoom in the
+[18:19] character just like a little bit like
+[18:20] this. And then once we do that, we're
+[18:22] going to continuously rotate this
+[18:24] character until the user lets go of the
+[18:27] mouse out of the viewport. And then it's
+[18:30] just going to reset it back to its
+[18:32] default C frame like we did before. So
+[18:35] now that we have that understanding,
+[18:36] let's go back to our script and we're
+[18:37] going to use tween service to move the
+[18:39] character inward. So we're going to drop
+[18:41] a few lines up here. We're going to make
+[18:43] reference to tween service by saying
+[18:45] local tween service equals game get
+[18:48] service tween service just like this.
+[18:50] And then we're going to create a tween
+[18:52] here. So we're going to say local tween
+[18:54] in equals tween service create open and
+[18:57] close parenthesis. So, we're going to
+[18:59] take the characters primary part, which
+[19:02] as I said before, this is the humanoid
+[19:04] group part. And then we're going to give
+[19:06] a tween info. So, we're going to say
+[19:08] tween info.n. And the only thing that we
+[19:10] really care about here is how long it
+[19:12] takes. So, we're going to say this is
+[19:14] going to last for 0.25 seconds. And then
+[19:16] we want to set a property table of the
+[19:19] goal that we want to achieve, which in
+[19:20] this case is the C frame. So we're going
+[19:23] to say C frame equals default C frame
+[19:28] plus default C frame.look vector. So the
+[19:32] look vector is basically this direction
+[19:34] right here that gives us a a bunch of
+[19:37] values that contains ones and zeros. And
+[19:39] if we add the look vector to this, then
+[19:41] it's going to move this character one
+[19:44] stud towards the camera. So once we have
+[19:46] this taken care of, now what we can do
+[19:48] is play the tween. So we can say tween
+[19:51] in colon play just like this. So now
+[19:54] what we're going to do is update our
+[19:55] mouse leave function. So we're going to
+[19:57] say if mouse entered then we're going to
+[20:00] set mouse entered equal to false. And
+[20:03] we're going to essentially take the same
+[20:05] code that we had here, but instead we're
+[20:07] going to push the character back instead
+[20:10] of bringing it into the camera. So we're
+[20:12] going to copy this, paste it in here.
+[20:14] We're going to rename this to tween out.
+[20:17] And then what we're going to change here
+[20:19] is the C frame property. So instead of
+[20:22] default C frame plus default C frame
+[20:24] look vector, we're just going to have
+[20:25] default C frame just like this. So now
+[20:28] what we should see is if we go inside
+[20:30] the game and hit play and if we hover
+[20:32] over our viewport frame, then we can see
+[20:34] that our character is now zoomed in once
+[20:36] we hover over. But then once we hover
+[20:38] out, it's going to zoom back out. So now
+[20:40] the thing that we need to add is the
+[20:43] ability to rotate or spin the character
+[20:47] while the player has their mouse hovered
+[20:48] over. So that's the next thing that
+[20:50] we're going to do here. So if I hit
+[20:52] stop, then what we're going to do is go
+[20:53] back to our local script and we need to
+[20:55] make reference to run service because
+[20:57] we're going to run this every single
+[20:59] frame so that it updates smoothly when
+[21:01] the character rotates around. So what
+[21:03] we're going to do up here is say local
+[21:05] run service equals game get service run
+[21:09] service just like this. And once we play
+[21:12] the tween we want to wait for the tween
+[21:14] to finish before we activate the spin
+[21:16] function. So what we're going to do is
+[21:18] say tween in completed
+[21:22] colon connect function open close
+[21:24] parenthesis enter. Now just for a quick
+[21:26] check what we're going to do is say if
+[21:28] mouse entered then just to be safe. And
+[21:31] now what we're going to do is take our
+[21:33] rotation connection and we're going to
+[21:36] apply run services render stepped
+[21:38] function. So we're going to say run
+[21:40] service dot render stepped. And the
+[21:43] reason we're using render stepped is
+[21:44] because this is a local script and
+[21:46] render stepped is something we can
+[21:48] exclusively use for local scripts
+[21:50] instead of normal scripts. So if we want
+[21:51] to get like the right amount of
+[21:53] smoothness, I think render stepped is
+[21:54] the best function to use. So then we're
+[21:56] going to say connect function open close
+[21:58] parenthesis enter just like this. And
+[22:00] now what we're going to do is basically
+[22:03] spin the primary part just like we did
+[22:05] with that regular part earlier in this
+[22:07] tutorial. So what we're going to do is
+[22:09] say character primary part doc frame and
+[22:13] then we're going to multiply equal
+[22:16] whatever the C frame of this primary
+[22:18] part currently is with CF frame angles
+[22:22] open close parenthesis. And then we're
+[22:23] going to say zero math.rad. We want to
+[22:26] apply one degree to the turn every
+[22:29] single frame. And then for the Z, we're
+[22:31] just going to say zero. Okay. So now our
+[22:34] mouse enters complete, but we want to
+[22:35] make sure that when the player hovers
+[22:38] their mouse out of the viewport frame,
+[22:40] then we want to disable this render
+[22:43] stepped connection. So down here, what
+[22:46] we're going to do for the mouse leave is
+[22:47] say if rotation connection. So if
+[22:50] there's a current connection right now,
+[22:53] then what we're going to do is
+[22:55] disconnect the connection. So we're
+[22:57] going to say rotation connection colon
+[23:01] disconnect. Just like that. And we also
+[23:04] want to make sure that rotation
+[23:05] connection is also set equal to nil as
+[23:07] well. So we're going to say rotation
+[23:08] connection equals nil. And that gets rid
+[23:11] of the variable since we don't need it
+[23:13] anymore. And this is our complete script
+[23:16] for our rotation model viewport system
+[23:20] that we created I guess. So if we hit
+[23:22] play then we should see our finished
+[23:25] result. So if I hover my mouse in then
+[23:27] we should see that first it zooms the
+[23:30] character in and then it spins the
+[23:32] character continuously until I stop uh
+[23:36] hovering over my mouse over this
+[23:38] viewport frame. So if I let go then it's
+[23:40] going to go back to where it started.
+[23:42] And I think this is something really
+[23:44] cool that we can make with viewport
+[23:46] frames. Um, now I kind of noticed that
+[23:49] the character is like zoomed in quite a
+[23:51] lot. So I'm going to uh make the
+[23:53] starting C frame six for the camera
+[23:55] instead of five. And I think that should
+[23:58] basically update the camera to be where
+[24:00] we want it to be. So now we can see more
+[24:02] of the character when we zoom in and
+[24:04] then do the rotation and then stop it.
+[24:06] So that is basically how we use viewport
+[24:07] frames inside of Roblox Studio. Big
+[24:09] shout outs to my Patreon members for
+[24:11] their continued support to help me
+[24:13] continue making high-quality tutorials
+[24:15] for you guys to watch and also just
+[24:17] great videos in general for the channel.
+[24:19] If you enjoyed this video, then I
+[24:20] encourage you to leave a like or maybe
+[24:22] leave a comment of what you plan to do
+[24:24] with this tutorial on viewport frames
+[24:26] inside of your own Roblox games. And
+[24:28] with that being said, I think that's
+[24:30] pretty much going to conclude this
+[24:32] episode on viewport frames. I had a lot
+[24:34] of fun making this tutorial and I will
+[24:36] be seeing you in the next video.

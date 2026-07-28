@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"\" cmd /c \"venv\\\\Scripts\\\\python server.py\")",
+      "Bash(curl:*)",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 5; try { Invoke-RestMethod -Uri ''http://localhost:8765/'' } catch { $_Exception.Message }\")",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 3; Invoke-RestMethod -Uri http://localhost:8765/\")",
+      "Bash(dir:*)",
+      "Bash(\"I:\\\\Reverse Engine Roblox\\\\Tools\\\\ScreenStream\\\\venv\\\\Scripts\\\\python.exe\":*)",
+      "Bash(\"I:\\\\Reverse Engine Roblox\\\\Tools\\\\InputController\\\\venv\\\\Scripts\\\\python.exe\":*)",
+      "Bash(powershell -Command \"Invoke-WebRequest -Uri http://localhost:8765/screenshot -OutFile ''I:\\\\Reverse Engine Roblox\\\\Tools\\\\screen_capture.jpg''\")",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 8; Invoke-WebRequest -Uri http://localhost:8765/screenshot -OutFile ''I:\\\\Reverse Engine Roblox\\\\Tools\\\\screen_capture2.jpg''\")",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 10; Invoke-WebRequest -Uri http://localhost:8765/screenshot -OutFile ''I:\\\\Reverse Engine Roblox\\\\Tools\\\\screen_capture3.jpg''\")",
+      "Bash(powershell:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)"
+    ]
+  }
+}

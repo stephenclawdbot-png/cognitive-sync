@@ -1,0 +1,83 @@
+  23:57:24.664  [SlappySeals] Client starting...  -  Client - SlappySealsClient:11
+  23:57:24.664  [Input] Init()  -  Client - InputHandler:12
+  23:57:24.664  [UI] === UIController.Init() START ===  -  Client - UIController:19
+  23:57:24.664  [UI] findHUD() starting...  -  Client - UIController:19
+  23:57:24.664  [UI] PlayerGui found, children: 1  -  Client - UIController:19
+  23:57:24.664  [UI]   PlayerGui child: ScreenGui Freecam  -  Client - UIController:19
+  23:57:25.145  [UI] HUD ScreenGui found, Enabled=true  -  Client - UIController:19
+  23:57:25.145  [UI] ResetOnSpawn set to false  -  Client - UIController:19
+  23:57:25.145  [UI] HUD children:  -  Client - UIController:19
+  23:57:25.145  [UI]   Frame [TopTimer] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI]   Frame [AnnouncementPopUp] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI]   Frame [GameSituationBox] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI] TopTimer found, listing children:  -  Client - UIController:19
+  23:57:25.146  [UI]   TextLabel [TimerLabel]  -  Client - UIController:19
+  23:57:25.146  [UI]   UIAspectRatioConstraint [UIAspectRatioConstraint]  -  Client - UIController:19
+  23:57:25.146  [UI] TimerLabel found directly  -  Client - UIController:19
+  23:57:25.146  [UI] AnnouncementPopUp found, listing children:  -  Client - UIController:19
+  23:57:25.146  [UI]   Frame [SharkAnnouncement] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI]     -> Registered as announcement frame  -  Client - UIController:19
+  23:57:25.146  [UI]   Frame [WinnerCard] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI]     -> Registered as announcement frame  -  Client - UIController:19
+  23:57:25.146  [UI]   Frame [RewardCard] Visible=true  -  Client - UIController:19
+  23:57:25.146  [UI]     -> Registered as announcement frame  -  Client - UIController:19
+  23:57:25.147  [UI]   Frame [SharkSpawn] Visible=true  -  Client - UIController:19
+  23:57:25.147  [UI]     -> Registered as announcement frame  -  Client - UIController:19
+  23:57:25.147  Visible is not a valid member of UIListLayout "Players.Player5.PlayerGui.HUD.AnnouncementPopUp.UIListLayout"  -  Client - UIController:175
+  23:57:25.147  Stack Begin  -  Studio
+  23:57:25.147  Script 'Players.Player5.PlayerScripts.SlappySealsModules.UIController', Line 175 - function findHUD  -  Studio - UIController:175
+  23:57:25.147  Script 'Players.Player5.PlayerScripts.SlappySealsModules.UIController', Line 365 - function Init  -  Studio - UIController:365
+  23:57:25.147  Script 'Players.Player5.PlayerScripts.SlappySealsClient', Line 13  -  Studio - SlappySealsClient:13
+  23:57:25.147  Stack End  -  Studio
+  23:57:27.186  [MaxBridge V2.5] Plugin loaded. Click the toolbar button to connect to Max!  -  Client
+  23:57:27.187  [StudioLink v1.0] Plugin loaded. Click the toolbar button to connect to Claude Code!  -  Client
+  23:57:11.193  [SlappySeals] Server starting...  -  Server - SlappySealsServer:7
+  23:57:11.193  [Round] === RoundManager.Init() ===  -  Server - RoundManager:21
+  23:57:11.193  [Round] Loading server modules...  -  Server - RoundManager:21
+  23:57:11.194  [Round] All server modules loaded  -  Server - RoundManager:21
+  23:57:11.194  [Round] Starting round cycle  -  Server - RoundManager:21
+  23:57:11.194  [Round] State: WaitingForPlayers -> WaitingForPlayers  -  Server - RoundManager:21
+  23:57:11.194  [Round] Announce: 'Waiting for players...' dur=5  -  Server - RoundManager:21
+  23:57:11.194  [Round] Waiting for 8 players...  -  Server - RoundManager:21
+  23:57:11.194  [Round] === RoundManager ready ===  -  Server - RoundManager:21
+  23:57:11.194  [SlappySeals] Server ready!  -  Server - SlappySealsServer:9
+  23:57:18.725  [MaxBridge V2.5] Plugin loaded. Click the toolbar button to connect to Max!  -  Server
+  23:57:18.725  [StudioLink v1.0] Plugin loaded. Click the toolbar button to connect to Claude Code!  -  Server
+  23:57:26.795  [Round] Enough players! Count: 8  -  Server - RoundManager:21
+  23:57:26.795  [Round] State: WaitingForPlayers -> MatchStarting  -  Server - RoundManager:21
+  23:57:26.795  [Round] Match starting countdown: 10s  -  Server - RoundManager:21
+  23:57:26.795  [Round] Announce: 'Match starting in 10...' dur=3  -  Server - RoundManager:21
+  23:57:31.861  [Round] Announce: '5' dur=1  -  Server - RoundManager:21
+  23:57:32.861  [Round] Announce: '4' dur=1  -  Server - RoundManager:21
+  23:57:33.877  [Round] Announce: '3' dur=1  -  Server - RoundManager:21
+  23:57:34.894  [Round] Announce: '2' dur=1  -  Server - RoundManager:21
+  23:57:35.894  [Round] Announce: '1' dur=1  -  Server - RoundManager:21
+  23:57:36.911  [Round] Countdown complete, proceeding to arena  -  Server - RoundManager:21
+  23:57:36.911  [Round] State: MatchStarting -> Countdown  -  Server - RoundManager:21
+  23:57:36.911  [Round] Teleporting 8 players to arena  -  Server - RoundManager:21
+  23:57:40.778  [Round] Players frozen for 2s  -  Server - RoundManager:21
+  23:57:42.794  [Round] Announce: '3' dur=1  -  Server - RoundManager:21
+  23:57:43.810  [Round] Announce: '2' dur=1  -  Server - RoundManager:21
+  23:57:44.827  [Round] Announce: '1' dur=1  -  Server - RoundManager:21
+  23:57:45.827  [Round] Announce: 'SLAP!' dur=2  -  Server - RoundManager:21
+  23:57:45.827  [Round] SLAP! Round starting  -  Server - RoundManager:21
+  23:57:45.828  [Round] State: Countdown -> InProgress  -  Server - RoundManager:21
+  23:57:45.828  [Round] Unfreezing 8 players  -  Server - RoundManager:21
+  23:57:45.828  [Round] Starting EliminationService + PlatformShrinkService + SharkService  -  Server - RoundManager:21
+  23:57:45.828  [Elim] Start() - elimination checking enabled  -  Server - EliminationService:17
+  23:57:45.828  [Shrink] StopSchedule()  -  Server - PlatformShrinkService:12
+  23:57:45.828  [Shrink] StartSchedule()  -  Server - PlatformShrinkService:12
+  23:57:45.828  [Shrink] Arena found: 110, 3, 110  -  Server - PlatformShrinkService:12
+  23:57:45.828  [Shark] StopSchedule()  -  Server - SharkService:16
+  23:57:45.828  [Shark] StartSchedule() - sharks begin at 90s  -  Server - SharkService:16
+  23:57:50.161  [Elim] Eliminating: Player3  -  Server - EliminationService:17
+  23:57:50.161  [Elim] Player3 fell off! | Alive: 7  -  Server - EliminationService:17
+  23:57:50.161  [Round] CheckWinCondition: 7 alive  -  Server - RoundManager:21
+  23:57:56.110  [Elim] Eliminating: Player7  -  Server - EliminationService:17
+  23:57:56.111  [Elim] Player7 fell off! | Alive: 6  -  Server - EliminationService:17
+  23:57:56.111  [Round] CheckWinCondition: 6 alive  -  Server - RoundManager:21
+  23:58:03.776  [Elim] Eliminating: Player6  -  Server - EliminationService:17
+  23:58:03.776  [Elim] Player6 fell off! | Alive: 5  -  Server - EliminationService:17
+  23:58:03.776  [Round] CheckWinCondition: 5 alive  -  Server - RoundManager:21
+  23:58:11.060  [Shrink] Warning: shrink at 30s (elapsed=25)  -  Server - PlatformShrinkService:12
+  23:58:16.242  [Shrink] SHRINK! 70x70 over 2.5s  -  Server - PlatformShrinkService:12
