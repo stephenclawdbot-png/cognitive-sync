@@ -721,30 +721,37 @@ total_multiplier = sum(equipped_multipliers)  # or product for multiplicative
 ## 16. QUICK START CHECKLIST
 
 ```
-□ Read GAME_MECHANICS.md (full 16-section spec)
-□ Read ECONOMY.md (11-section economy doc)
-□ Set up Godot 4.x project (pixel-perfect)
-□ 8-directional movement + dash + i-frames
-□ Basic attack (projectile or hitbox)
-□ 1 enemy with AI (chase + attack)
-□ Health + mana + death + respawn
-□ Damage calculation (damage vs. resistance)
-□ Item drops + pickup + equipment
+□ Read ARCHITECTURE.md (system design, EventBus, autoloads, combat pipeline)
+□ Read DATA_MODELS.md (complete JSON schemas for all game data)
+□ Read BALANCE.md (damage formulas, XP curves, loot tables)
+□ Read LEVEL_DESIGN.md (room templates, dungeon generation, tileset specs)
+□ Read ASSET_SPEC.md (~2,750 assets with priorities and naming)
+□ Read HANDOFF.md (5-sprint plan, pseudocode, test stubs, pitfalls)
+□ Open codebase/project.godot in Godot 4.3+ (37 GDScript files ready)
+□ Read codebase/README.md (scene file list, setup instructions)
+□ Set up Godot 4.3+ project (pixel-perfect — project.godot preconfigured)
+□ 8-directional movement + dash + i-frames (State machine in codebase/)
+□ Basic attack (projectile — Projectile.gd in codebase/)
+□ 1 enemy with AI (chase + attack — EnemyBase.gd in codebase/)
+□ Health + mana + death + respawn (PlayerCharacter.gd in codebase/)
+□ Damage calculation (DamageCalculator.gd in codebase/)
+□ Item drops + pickup + equipment (LootTable.gd, ItemPickup.gd in codebase/)
 □ 5 rarity tiers with colored frames
-□ Skill tree (start with 9 nodes)
-□ Room generation + doors + keys
-□ Enemy scaling per room level
+□ Skill tree (start with 9 nodes — SkillManager.gd in codebase/)
+□ Room generation + doors + keys (DungeonGenerator.gd in codebase/)
+□ Enemy scaling per room level (DataManager.scale_enemy() in codebase/)
 □ Glob pickups (HP/mana/money/XP)
-□ Hub area + portal system
+□ Hub area + portal system (Hub.gd, NPCBase.gd in codebase/)
 □ NPC: identify + enchant + respec
 □ 3 classes + character switch
-□ Full skill tree (36 nodes/class)
+□ Full skill tree (36 nodes/class — schemas in DATA_MODELS.md)
 □ Boss enemy + boss health bar
 □ Stash system
-□ 20+ VFX + 18 SFX + 3 music tracks
-□ CRT shader + controller support
+□ 20+ VFX + 18 SFX + 3 music tracks (see ASSET_SPEC.md)
+□ CRT shader (crt.gdshader in codebase/shaders/)
+□ Controller support
 □ Playtest 5-minute test with 5 strangers
 □ Ship a demo
 ```
 
-**Start with Layer 0. Make the character move and dash. Everything else stacks on top.**
+**The codebase scaffold has everything you need. Open `codebase/project.godot` in Godot 4.3+, create the .tscn scene files per `codebase/README.md`, add JSON data from `DATA_MODELS.md`, and start building.**

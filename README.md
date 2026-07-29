@@ -1,10 +1,24 @@
 # 🧠 COGNITIVE-SYNC
 
-**A real-time collaborative thinking platform.**
+**A real-time collaborative thinking platform + game reverse-engineering lab.**
 
 Visualize your thoughts as floating 3D objects in a shared space. Multiple users can connect, create thoughts, and see changes synchronize in real-time.
 
 ![Cognitive Sync Demo](https://via.placeholder.com/800x400/0a0a0f/64ffd8?text=COGNITIVE-SYNC+3D+Visualization)
+
+---
+
+## 🎮 Game Reverse-Engineering Lab
+
+This repo also houses **3 reverse-engineered games** with full architect-level documentation, build guides, and codebase scaffolds. Start here: **[games/START_HERE.md](games/START_HERE.md)**
+
+| Game | Type | Docs | Codebase |
+|------|------|------|----------|
+| **v1.0.00 "wizdung"** | Godot 4 ARPG dungeon crawler | [START_HERE](games/v1.0.00/START_HERE.md) · [ARCHITECTURE](games/v1.0.00/ARCHITECTURE.md) · [DATA_MODELS](games/v1.0.00/DATA_MODELS.md) · [BALANCE](games/v1.0.00/BALANCE.md) · [LEVEL_DESIGN](games/v1.0.00/LEVEL_DESIGN.md) · [ASSET_SPEC](games/v1.0.00/ASSET_SPEC.md) · [HANDOFF](games/v1.0.00/HANDOFF.md) | [codebase/](games/v1.0.00/codebase/) — 37 GDScript files |
+| **Legendum** | Godot 4 life-sim RPG roguelite | [START_HERE](games/legendum/START_HERE.md) · [ARCHITECTURE](games/legendum/ARCHITECTURE.md) · [DATA_MODELS](games/legendum/DATA_MODELS.md) · [ASSET_SPEC](games/legendum/ASSET_SPEC.md) | — |
+| **Reverse Engine Roblox** | Roblox game pattern analysis (9 games) | [START_HERE](games/reverse-engine-roblox/START_HERE.md) · [ARCHITECTURE](games/reverse-engine-roblox/ARCHITECTURE.md) · [DATA_MODELS](games/reverse-engine-roblox/DATA_MODELS.md) · [ASSET_SPEC](games/reverse-engine-roblox/ASSET_SPEC.md) | — |
+
+Each game has: design peg, core loop, bottom-up build order, full data schemas, balance formulas, asset specs (~2,500+ assets each), and developer handoff docs. The v1.0.00 wizdung game also includes a complete Godot 4.3 codebase scaffold (project.godot, 8 autoloads, state machine, combat, skills, enemies, dungeon gen, NPCs, HUD, CRT shader).
 
 ## 📣 New: Version 1.1 Demo Available!
 

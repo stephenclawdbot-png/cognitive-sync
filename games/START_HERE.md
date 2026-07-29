@@ -8,11 +8,11 @@
 
 Each game folder now contains a **`START_HERE.md`** — a top-down, creative-director-level blueprint for building a new game inspired by that reverse-engineered title. Read that first. Then drill into `GAME_MECHANICS.md` and `ECONOMY.md` for the full design spec.
 
-| Game | Type | Start Here | Full Spec |
-|------|------|------------|-----------|
-| **Legendum** | Life-sim RPG roguelite | [START_HERE.md](./legendum/START_HERE.md) | [GAME_MECHANICS.md](./legendum/GAME_MECHANICS.md) · [ECONOMY.md](./legendum/ECONOMY.md) |
-| **Reverse Engine Roblox** | Roblox game patterns | [START_HERE.md](./reverse-engine-roblox/START_HERE.md) | [GAME_MECHANICS.md](./reverse-engine-roblox/GAME_MECHANICS.md) · [ECONOMY.md](./reverse-engine-roblox/ECONOMY.md) |
-| **v1.0.00 "wizdung"** | Action RPG dungeon crawler | [START_HERE.md](./v1.0.00/START_HERE.md) | [GAME_MECHANICS.md](./v1.0.00/GAME_MECHANICS.md) · [ECONOMY.md](./v1.0.00/ECONOMY.md) |
+| Game | Type | Start Here | Full Spec | Architecture |
+|------|------|------------|-----------|--------------|
+| **v1.0.00 "wizdung"** | Godot 4 ARPG dungeon crawler | [START_HERE.md](./v1.0.00/START_HERE.md) | [GAME_MECHANICS.md](./v1.0.00/GAME_MECHANICS.md) · [ECONOMY.md](./v1.0.00/ECONOMY.md) | [ARCHITECTURE.md](./v1.0.00/ARCHITECTURE.md) · [DATA_MODELS.md](./v1.0.00/DATA_MODELS.md) · [BALANCE.md](./v1.0.00/BALANCE.md) · [LEVEL_DESIGN.md](./v1.0.00/LEVEL_DESIGN.md) · [ASSET_SPEC.md](./v1.0.00/ASSET_SPEC.md) · [HANDOFF.md](./v1.0.00/HANDOFF.md) · [codebase/](./v1.0.00/codebase/) |
+| **Legendum** | Life-sim RPG roguelite | [START_HERE.md](./legendum/START_HERE.md) | [GAME_MECHANICS.md](./legendum/GAME_MECHANICS.md) · [ECONOMY.md](./legendum/ECONOMY.md) | [ARCHITECTURE.md](./legendum/ARCHITECTURE.md) · [DATA_MODELS.md](./legendum/DATA_MODELS.md) · [ASSET_SPEC.md](./legendum/ASSET_SPEC.md) |
+| **Reverse Engine Roblox** | Roblox game patterns (9 games) | [START_HERE.md](./reverse-engine-roblox/START_HERE.md) | [GAME_MECHANICS.md](./reverse-engine-roblox/GAME_MECHANICS.md) · [ECONOMY.md](./reverse-engine-roblox/ECONOMY.md) | [ARCHITECTURE.md](./reverse-engine-roblox/ARCHITECTURE.md) · [DATA_MODELS.md](./reverse-engine-roblox/DATA_MODELS.md) · [ASSET_SPEC.md](./reverse-engine-roblox/ASSET_SPEC.md) |
 
 ---
 
@@ -147,8 +147,52 @@ All 3 reverse-engineered games share these patterns:
 1. **Read the START_HERE.md** for the game you want to build
 2. **Read GAME_MECHANICS.md** for the full system spec
 3. **Read ECONOMY.md** for the economy design
-4. **Set up your engine** (Godot 4.x for Legendum/wizdung, Roblox Studio for Roblox)
-5. **Build Phase 0** — get a character walking on screen
-6. **Iterate** — playtest after every phase
+4. **Read ARCHITECTURE.md** for the technical system design (autoloads, signals, components)
+5. **Read DATA_MODELS.md** for complete JSON schemas — use these as your data files
+6. **Read ASSET_SPEC.md** for every sprite, sound, and shader you need to create
+7. **Read HANDOFF.md** (v1.0.00 only) for the sprint-by-sprint implementation plan
+8. **Set up your engine** (Godot 4.3+ for v1.0.00/Legendum, Roblox Studio for Roblox games)
+9. **v1.0.00: Copy `codebase/` into a new Godot project** — 37 GDScript files are ready
+10. **Build Phase 0** — get a character walking on screen
+11. **Iterate** — playtest after every phase
 
 **You can build all 3 games. Start with the one that excites you most.**
+
+---
+
+## Full File Inventory
+
+### v1.0.00 "wizdung" (Godot 4 ARPG)
+| File | Purpose | Size |
+|------|---------|------|
+| `START_HERE.md` | Creative director build guide with design peg, phases, class sheets | 32KB |
+| `GAME_MECHANICS.md` | Full mechanics spec — 16 sections, 865 lines | 35KB |
+| `ECONOMY.md` | Economy design — gold flow, item values, drop rates | 18KB |
+| `ARCHITECTURE.md` | System architecture — autoloads, EventBus, combat pipeline, save schema | 28KB |
+| `DATA_MODELS.md` | Complete JSON schemas — items, skills (3 classes × 36 nodes), enemies, curves | 47KB |
+| `BALANCE.md` | Damage formulas, XP curve, loot tables, enemy scaling, class balance matrix | 15KB |
+| `LEVEL_DESIGN.md` | Room templates, dungeon generation, tileset specs, difficulty pacing | 13KB |
+| `ASSET_SPEC.md` | ~2,750 assets with priorities, naming, shaders, fonts | 21KB |
+| `HANDOFF.md` | 5-sprint plan, folder structure, pseudocode, test stubs, pitfalls | 23KB |
+| `codebase/` | 37 GDScript files — project.godot, 8 autoloads, state machine, combat, skills, enemies, dungeon, NPCs, HUD, CRT shader | — |
+| `sprites/` | 38 generated pixel-art PNGs (3 chars × 8 dirs, 6 enemies, 4 items, 2 equipment, 2 NPCs) | — |
+
+### Legendum (Godot 4 Life-Sim RPG)
+| File | Purpose | Size |
+|------|---------|------|
+| `START_HERE.md` | Build guide with design peg, life/reincarnation loop, phase breakdown | — |
+| `GAME_MECHANICS.md` | Full mechanics — life sim, combat, reincarnation, soul perks | — |
+| `ECONOMY.md` | Economy — gold, XP, legacy points, content gating | — |
+| `ARCHITECTURE.md` | 17 sections — system diagrams, life sim, combat, reincarnation, data flow | 53KB |
+| `DATA_MODELS.md` | TypeScript interfaces + JSON for character, life events, soul perks, items, jobs, NPCs | 62KB |
+| `ASSET_SPEC.md` | ~2,481 assets, 4 priority tiers, animation specs, build pipeline | 60KB |
+
+### Reverse Engine Roblox (Roblox Game Patterns)
+| File | Purpose | Size |
+|------|---------|------|
+| `START_HERE.md` | Build guide — 9 game analyses, viral patterns, monetization | — |
+| `GAME_MECHANICS.md` | Mechanics across 9 Roblox games — clickers, tycoons, pet collectors | — |
+| `ECONOMY.md` | Multi-currency economies, gacha, rebirth, Robux monetization | — |
+| `ARCHITECTURE.md` | Roblox client-server model, RemoteEvents, anti-exploit, DataStore | 35KB |
+| `DATA_MODELS.md` | Lua schemas — player data, pets, eggs, plots, leaderboards, monetization | 31KB |
+| `ASSET_SPEC.md` | ~640 GUI/3D/audio assets, Robux store requirements, import specs | 33KB |

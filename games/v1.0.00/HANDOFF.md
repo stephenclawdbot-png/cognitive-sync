@@ -9,14 +9,20 @@
 ## 0. QUICK START (5 MINUTES)
 
 ```bash
-# 1. Install Godot 4.x (https://godotengine.org)
-# 2. Create new project at games/v1.0.00/codebase/
-# 3. Configure project settings (see Section 1 below)
-# 4. Copy data/ JSON files from DATA_MODELS.md
-# 5. Start building Layer 0 (see START_HERE.md Phase 0)
+# 1. Install Godot 4.3+ (https://godotengine.org)
+# 2. The codebase scaffold is already in games/v1.0.00/codebase/
+#    - project.godot with all autoloads, input maps, renderer settings preconfigured
+#    - 37 GDScript files: 8 autoloads, state machine, combat, skills, enemies, dungeon, NPCs, HUD
+# 3. Open Godot → Import → select games/v1.0.00/codebase/project.godot
+# 4. Create .tscn scene files (see codebase/README.md for the list)
+# 5. Copy data/ JSON files from DATA_MODELS.md into codebase/data/
+# 6. Import sprites into codebase/assets/sprites/ (see ASSET_SPEC.md for naming)
+# 7. Start building Layer 0 (see START_HERE.md Phase 0)
 ```
 
 **First milestone:** Character moves in 8 directions with WASD, camera follows, simple tilemap room with walls. This should take 1-2 hours.
+
+> **NEW:** The full codebase scaffold is committed at `games/v1.0.00/codebase/`. See `codebase/README.md` for setup instructions, scene file list, and implementation order.
 
 ---
 
